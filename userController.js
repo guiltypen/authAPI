@@ -28,12 +28,7 @@ exports.signup = async (req, res, next) => {
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
     res.status(201).json({
-      message:
-        "User " +
-        newUser.username +
-        " created successfully. " +
-        "Login Token is :" +
-        token,
+      message: token,
     });
   } catch (error) {
     next(error);
