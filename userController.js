@@ -40,8 +40,22 @@ exports.signin = (req, res) => {
   const { user } = req;
   const payload = {
     id: user.id,
+    username: user.username,
+    firstName: user.firstName,
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
   res.json({ token });
+};
+
+exports.userlist = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ["id", "username", "firstName", "lastName"],
+    });
+    console.log("users", users);
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
